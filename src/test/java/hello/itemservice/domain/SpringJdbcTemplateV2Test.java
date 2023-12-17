@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -134,13 +135,7 @@ public class SpringJdbcTemplateV2Test {
     }
 
     private static RowMapper<Actor> actorRowMapper() {
-        return (rs, rowNum) -> {
-            Actor actor = new Actor();
-            actor.setId(rs.getLong("id"));
-            actor.setFirstName(rs.getString("first_name"));
-            actor.setLastName(rs.getString("last_name"));
-            return actor;
-        };
+        return new BeanPropertyRowMapper<>(Actor.class);
     }
 
     private Actor save(Actor actor) {
